@@ -1,24 +1,24 @@
 import css from './Feedback.module.css';
 
-export default function Feedback() {
-    
+export default function Feedback({ Options, totalFeedback, positiveTotal }) {
     return (
-        <ul className={css.list}>
-            <li>
-                <p>Good:</p>
-            </li>
-            <li>
-                <p>Neutral:</p>
-            </li>
-            <li>
-                <p>Bad:</p>
-            </li>
-            <li>
-                <p>Total:</p>
-            </li>
-            <li>
-                <p>Positive: </p>
-            </li>
-        </ul>
-    )
+        totalFeedback === 0 ? 'No feedback yet' :
+            <ul className={css.list}>
+                <li>
+                    <p>Good:{Options.good}</p>
+                </li>
+                <li>
+                    <p>Neutral:{Options.neutral}</p>
+                </li>
+                <li>
+                    <p>Bad:{Options.bad}</p>
+                </li>
+                <li>
+                    <p>Total:{totalFeedback}</p>
+                </li>
+                <li>
+                    <p>Positive:{positiveTotal}%</p>
+                </li>
+            </ul>
+    );
 }
