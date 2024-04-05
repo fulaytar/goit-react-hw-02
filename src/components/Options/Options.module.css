@@ -1,0 +1,9 @@
+.list {
+    display: flex;
+    column-gap: 6px;
+    margin-bottom: 18px;
+}
+.button{
+    padding: 5px 10px 5px 10px;
+    cursor: pointer;
+}
