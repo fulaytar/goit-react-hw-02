@@ -1,6 +1,7 @@
 import Description from './components/Description/Description';
 import Options from './components/Options/Options';
 import Feedback from './components/Feedback/Feedback';
+import Notification from './components/Notification/Notification';
 import { useState,useEffect } from 'react';
 
 export default function App() {
@@ -40,7 +41,8 @@ export default function App() {
     <>
       <Description />
       <Options options={updateFeedback} totalFeedback={totalFeedback} resetFeedback={resetFeedback} />
-      <Feedback options={count} totalFeedback={totalFeedback} positiveTotal={positiveTotal} />
+      { totalFeedback>0?<Feedback options={count} totalFeedback={totalFeedback} positiveTotal={positiveTotal} />:<Notification />}
+      
     </>
   )
 }
