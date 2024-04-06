@@ -1,55 +1,46 @@
 import Description from './components/Description/Description';
 import Options from './components/Options/Options';
 import Feedback from './components/Feedback/Feedback';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 export default function App() {
   
   const [count, setCount] = useState(
-    {
-	good: 0,
+    () => {
+      const saveFeedback = localStorage.getItem('saveFeedback');
+      return saveFeedback !== null ? JSON.parse(saveFeedback) :
+        {
+  good: 0,
 	neutral: 0,
 	bad: 0
-}
+    } ;
+    }
   );
   let totalFeedback = count.good + count.neutral + count.bad || 0;
   let positiveTotal = Math.round((count.good / totalFeedback) * 100)||0;
 
-  function updateFeedback(event) {
-    if (event.target.textContent ==='Good') {
+  const updateFeedback= (key)=> {
         setCount({
         ...count,
-          good: count.good + 1
+          [key]: count[key] + 1,
       })
-    }
-    if (event.target.textContent === 'Neutral') {
-        setCount({
-        ...count,
-          neutral: count.neutral + 1,
-      })
-    }
-    if (event.target.textContent === 'Bad') {
-        setCount({
-        ...count,
-        bad: count.bad + 1,
-      })
-    }
-    if (event.target.textContent === 'Reset') {
-      totalFeedback = 0;
-      setCount({
-      good: 0,
-      neutral: 0,
-      bad: 0
-      })
-    }
   }
 
+  const resetFeedback = () => {
+    setCount({
+  good: 0,
+	neutral: 0,
+	bad: 0
+    })
+  }
+
+  useEffect(() => { localStorage.setItem('saveFeedback', JSON.stringify(count)) }, [count]);
 
   return (
     <>
       <Description />
-      <Options Options={updateFeedback} totalFeedback={totalFeedback} />
-      <Feedback Options={count} totalFeedback={totalFeedback} positiveTotal={positiveTotal} />
+      <Options options={updateFeedback} totalFeedback={totalFeedback} resetFeedback={resetFeedback} />
+      <Feedback options={count} totalFeedback={totalFeedback} positiveTotal={positiveTotal} />
     </>
   )
 }
